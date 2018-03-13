@@ -11,14 +11,9 @@ class RepositoriesController < ApplicationController
         req.params['q'] = params[:query]
       end
       body = JSON.parse(@resp.body)
-      if @resp.success?
-        @repos = body["items"]
-      else
-        @error = body["meta"]["errorDetail"]
+        if @resp.success?
+          @repos = body["items"]
+        end
+        render 'search'
       end
-
-    rescue Faraday::ConnectionFailed
-      @error = "There was a timeout. Please try again."
     end
-    render 'search'
-  end
